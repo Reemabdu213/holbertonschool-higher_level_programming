@@ -1,0 +1,58 @@
+Test for text_indentation
+==========================
+
+Import function:
+    >>> text_indentation = __import__('5-text_indentation').text_indentation
+
+Test 1: Simple text with period
+    >>> text_indentation("Hello. World")
+    Hello.
+    <BLANKLINE>
+    World
+
+Test 2: Text with question mark
+    >>> text_indentation("How are you?")
+    How are you?
+    <BLANKLINE>
+
+Test 3: Text with colon
+    >>> text_indentation("This is: a test")
+    This is:
+    <BLANKLINE>
+    a test
+
+Test 4: Text with multiple special characters
+    >>> text_indentation("One. Two? Three:")
+    One.
+    <BLANKLINE>
+    Two?
+    <BLANKLINE>
+    Three:
+    <BLANKLINE>
+
+Test 5: Text with spaces after special characters
+    >>> text_indentation("Hello.   World")
+    Hello.
+    <BLANKLINE>
+    World
+
+Test 6: Error - text is not a string
+    >>> text_indentation(123)
+    Traceback (most recent call last):
+    ...
+    TypeError: text must be a string
+
+Test 7: Error - text is None
+    >>> text_indentation(None)
+    Traceback (most recent call last):
+    ...
+    TypeError: text must be a string
+
+Test 8: Empty string
+    >>> text_indentation("")
+
+Test 9: Missing argument
+    >>> text_indentation()
+    Traceback (most recent call last):
+    ...
+    TypeError: text_indentation() missing 1 required positional argument: 'text'
