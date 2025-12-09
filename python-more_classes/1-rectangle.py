@@ -7,7 +7,7 @@ class Rectangle:
 
     def __init__(self, width=0, height=0):
         """Initialize rectangle with width and height
-        
+
         Args:
             width: width of the rectangle (default 0)
             height: height of the rectangle (default 0)
@@ -23,10 +23,10 @@ class Rectangle:
     @width.setter
     def width(self, value):
         """Setter for width with validation
-        
+
         Args:
             value: new width value
-            
+
         Raises:
             TypeError: if width is not an integer
             ValueError: if width is less than 0
@@ -45,10 +45,10 @@ class Rectangle:
     @height.setter
     def height(self, value):
         """Setter for height with validation
-        
+
         Args:
             value: new height value
-            
+
         Raises:
             TypeError: if height is not an integer
             ValueError: if height is less than 0
