@@ -1,0 +1,243 @@
+CURL Command Line API Consumption - Exercise Documentation
+===========================================================
+
+TASK 1: Consume data from an API using command line tools (curl)
+
+1. INSTALLING AND VERIFYING CURL
+---------------------------------
+
+Command to check curl installation:
+$ curl --version
+
+Expected Output:
+curl 7.x.x (platform details)
+Release-Date: [date]
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp
+Features: AsynchDNS GSS-API HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM NTLM_WB PSL SPNEGO SSL TLS-SRP UnixSockets
+
+
+2. BASIC WEB PAGE FETCHING
+---------------------------
+
+Command:
+$ curl http://example.com
+
+Description:
+Fetches and displays the HTML content of example.com
+
+Expected Output:
+<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+...
+</html>
+
+
+3. FETCHING DATA FROM JSONPLACEHOLDER API
+------------------------------------------
+
+Command to get all posts:
+$ curl https://jsonplaceholder.typicode.com/posts
+
+Description:
+Retrieves a JSON array of posts from the JSONPlaceholder API
+
+Expected Output (sample):
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "quia et suscipit\nsuscipit recta..."
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "title": "qui est esse",
+    "body": "est rerum tempore vitae..."
+  },
+  ...
+]
+
+Command to get a specific post:
+$ curl https://jsonplaceholder.typicode.com/posts/1
+
+Expected Output:
+{
+  "userId": 1,
+  "id": 1,
+  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+  "body": "quia et suscipit\nsuscipit recta..."
+}
+
+
+4. USING HEADERS WITH CURL
+---------------------------
+
+Command to fetch only headers:
+$ curl -I https://jsonplaceholder.typicode.com/posts
+
+Description:
+The -I flag (or --head) fetches only the HTTP headers without the body
+
+Expected Output:
+HTTP/2 200
+date: Wed, 15 Jan 2025 10:30:00 GMT
+content-type: application/json; charset=utf-8
+content-length: 27428
+x-powered-by: Express
+x-ratelimit-limit: 1000
+x-ratelimit-remaining: 999
+vary: Accept-Encoding
+cache-control: max-age=43200
+expires: Wed, 15 Jan 2025 22:30:00 GMT
+...
+
+Analysis of headers:
+- HTTP/2 200: Success status code
+- content-type: Specifies JSON format
+- x-ratelimit-*: API rate limiting information
+- cache-control: Caching directives
+
+
+5. MAKING POST REQUESTS
+------------------------
+
+Command to create a new post:
+$ curl -X POST -d "title=foo&body=bar&userId=1" https://jsonplaceholder.typicode.com/posts
+
+Breakdown:
+- -X POST: Specifies the HTTP method as POST
+- -d "data": Sends data in the request body (form-encoded)
+
+Expected Output:
+{
+  "title": "foo",
+  "body": "bar",
+  "userId": "1",
+  "id": 101
+}
+
+Alternative JSON format POST:
+$ curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"title":"foo","body":"bar","userId":1}' \
+  https://jsonplaceholder.typicode.com/posts
+
+Breakdown:
+- -H "Content-Type: application/json": Sets header to specify JSON format
+- -d '{"json":"data"}': Sends JSON data
+
+Expected Output:
+{
+  "title": "foo",
+  "body": "bar",
+  "userId": 1,
+  "id": 101
+}
+
+
+6. ADDITIONAL USEFUL CURL OPTIONS
+----------------------------------
+
+Save output to file:
+$ curl https://jsonplaceholder.typicode.com/posts -o posts.json
+
+Follow redirects:
+$ curl -L http://example.com
+
+Verbose output (show request and response details):
+$ curl -v https://jsonplaceholder.typicode.com/posts/1
+
+Include response headers in output:
+$ curl -i https://jsonplaceholder.typicode.com/posts/1
+
+Set custom headers:
+$ curl -H "Authorization: Bearer token123" https://api.example.com/data
+
+PUT request to update data:
+$ curl -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{"title":"updated","body":"updated body","userId":1}' \
+  https://jsonplaceholder.typicode.com/posts/1
+
+DELETE request:
+$ curl -X DELETE https://jsonplaceholder.typicode.com/posts/1
+
+Show only HTTP status code:
+$ curl -s -o /dev/null -w "%{http_code}" https://jsonplaceholder.typicode.com/posts
+
+
+7. USING JQ FOR JSON FORMATTING
+--------------------------------
+
+Install jq (JSON processor):
+$ sudo apt-get install jq  # Ubuntu/Debian
+$ brew install jq          # macOS
+
+Pretty print JSON:
+$ curl https://jsonplaceholder.typicode.com/posts | jq
+
+Filter specific fields:
+$ curl https://jsonplaceholder.typicode.com/posts | jq '.[0].title'
+
+Get array length:
+$ curl https://jsonplaceholder.typicode.com/posts | jq 'length'
+
+Filter posts by userId:
+$ curl https://jsonplaceholder.typicode.com/posts | jq '.[] | select(.userId == 1)'
+
+
+8. PRACTICAL EXERCISES COMPLETED
+---------------------------------
+
+Exercise 1: Verify curl installation ✓
+Command: curl --version
+Result: Confirmed curl is installed and version displayed
+
+Exercise 2: Fetch webpage content ✓
+Command: curl http://example.com
+Result: HTML content retrieved successfully
+
+Exercise 3: Get API data ✓
+Command: curl https://jsonplaceholder.typicode.com/posts
+Result: JSON array of posts retrieved
+
+Exercise 4: Inspect headers ✓
+Command: curl -I https://jsonplaceholder.typicode.com/posts
+Result: HTTP headers displayed without body
+
+Exercise 5: Make POST request ✓
+Command: curl -X POST -d "title=foo&body=bar&userId=1" https://jsonplaceholder.typicode.com/posts
+Result: Server acknowledged with id 101
+
+
+9. KEY TAKEAWAYS
+-----------------
+
+1. curl is a powerful command-line tool for API interaction
+2. Different HTTP methods (GET, POST, PUT, DELETE) serve different purposes
+3. Headers provide important metadata about requests and responses
+4. The -X flag specifies the HTTP method
+5. The -d flag sends data with the request
+6. The -I flag retrieves only headers
+7. The -H flag sets custom headers
+8. JSONPlaceholder is a safe API for testing and learning
+9. jq is useful for formatting and filtering JSON output
+10. Understanding HTTP responses helps diagnose API behavior
+
+
+10. COMMON HTTP STATUS CODES ENCOUNTERED
+-----------------------------------------
+
+200 OK - Request succeeded
+201 Created - Resource successfully created
+204 No Content - Success but no content to return
+400 Bad Request - Malformed request
+401 Unauthorized - Authentication required
+403 Forbidden - Authenticated but not authorized
+404 Not Found - Resource doesn't exist
+429 Too Many Requests - Rate limit exceeded
+500 Internal Server Error - Server error
+503 Service Unavailable - Server temporarily unavailable
