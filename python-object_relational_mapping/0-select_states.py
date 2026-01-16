@@ -22,8 +22,3 @@ if __name__ == "__main__":
 
     cursor.close()
     db.close()
-        print(row)
-
-    # Close connections
-    cursor.close()
-    db.close()
