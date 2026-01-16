@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Script that displays all values in states table where name matches argument"""
+"""Script that displays all values in states table where name matches
+argument"""
 
 if __name__ == "__main__":
     import MySQLdb
