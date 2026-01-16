@@ -5,7 +5,6 @@ if __name__ == "__main__":
     import MySQLdb
     import sys
 
-    # Connect to MySQL server
     db = MySQLdb.connect(
         host="localhost",
         port=3306,
@@ -14,13 +13,15 @@ if __name__ == "__main__":
         db=sys.argv[3]
     )
 
-    # Create cursor and execute query
     cursor = db.cursor()
     cursor.execute("SELECT * FROM states ORDER BY id ASC")
 
-    # Fetch and display results
     rows = cursor.fetchall()
     for row in rows:
+        print(row)
+
+    cursor.close()
+    db.close()
         print(row)
 
     # Close connections
